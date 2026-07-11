@@ -1,16 +1,45 @@
 
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, HTTPException
+from dotenv import load_dotenv
+from google import genai
+from google.genai import types
+
+from schemas import GoalPrompt, SubtaskModel, StoryModel, EpicModel
+
+load_dotenv()
 
 app = FastAPI()
 
-# pydantic model for the request body
+# Initialize GenAI client
+client = genai.Client()
 
 
-class QueryRequest(BaseModel):
-    prompt: str
+@app.post("/breakdown")
+async def breakdown_goal(request: GoalPrompt):
 
+    if not request.goal.strip():
+        raise HTTPException(status_code=400, detail="Goal cannot be empty.")
 
-@app.post("/ask")
-async def ask_llm(request: QueryRequest):
-    return {"status": "success", "response": f"Recibí tu prompt: {request.prompt}"}
+    try:
+        response = client.models.generate_content(
+            model="gemini-3.5-flash",
+            contents=[
+                "You are a Product Owner, expert in Agile methodologies."
+                "Your task is to receive a goal and break it down"
+                " into an Epic, Stories, and Subtasks."
+                "Estimate story points for each story (using Fibonacci sequence: 1, 2, 3, 5, 8),"
+                "if the story is bigger than 8 story points, break it down into smaller stories."
+                "For each story, provide a list of subtasks."
+                f"Break down this goal: {request.goal}"
+            ],
+            config=types.GenerateContentConfig(
+                # json response following EpicModel schema
+                response_mime_type="application/json",
+                response_schema=EpicModel,
+            ),
+        )
+        return response.text
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Error with Gemini API: {str(e)}")
