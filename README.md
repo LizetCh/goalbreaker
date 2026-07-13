@@ -11,6 +11,11 @@ Built to demonstrate clean architecture, strict schema control over LLM outputs,
 - **Validation & Serialization:** Pydantic v2 (Strict schema validation for structural safety)
 - **LLM Provider:** Google GenAI SDK (gemini-3.5-flash)
 
+### Interactive Documentation
+
+Test the validation layers and successful AI requests directly via the native Swagger UI at:
+`web-production-94fc7.up.railway.app/docs`
+
 ---
 
 ## Quick Start
@@ -91,11 +96,6 @@ The application handles edge cases cleanly without server crashes:
 
 - **400 Bad Request:** Triggered if the objective field is empty, missing, or contains only whitespace.
 - **500 Internal Server Error:** Triggered if downstream communication with the Gemini API fails or returns invalid schemas.
-
-### Interactive Documentation
-
-Test the validation layers and successful AI requests directly via the native Swagger UI at:
-`http://127.0.0.1:8000/docs`
 
 ---
 
