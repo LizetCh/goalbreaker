@@ -22,7 +22,7 @@ async def breakdown_goal(request: GoalPrompt):
                             detail="Goal cannot be empty.")
 
     try:
-        response = client.models.generate_content(
+        response = await client.aio.models.generate_content(
             model="gemini-3.5-flash",
             contents=[
                 "You are a Product Owner, expert in Agile methodologies."
