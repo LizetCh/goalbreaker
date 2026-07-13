@@ -1,5 +1,5 @@
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, status
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
@@ -18,7 +18,8 @@ client = genai.Client()
 async def breakdown_goal(request: GoalPrompt):
 
     if not request.goal.strip():
-        raise HTTPException(status_code=400, detail="Goal cannot be empty.")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail="Goal cannot be empty.")
 
     try:
         response = client.models.generate_content(
@@ -42,4 +43,5 @@ async def breakdown_goal(request: GoalPrompt):
 
     except Exception as e:
         raise HTTPException(
-            status_code=500, detail=f"Error with Gemini API: {str(e)}")
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error with Gemini API: {str(e)}")
