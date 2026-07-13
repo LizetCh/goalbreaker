@@ -11,7 +11,7 @@ Built to demonstrate clean architecture, strict schema control over LLM outputs,
 - **Validation & Serialization:** Pydantic v2 (Strict schema validation for structural safety)
 - **LLM Provider:** Google GenAI SDK (gemini-3.5-flash)
 
-### Interactive Documentation
+## Interactive Documentation
 
 Test the validation layers and successful AI requests directly via the native Swagger UI at:
 `web-production-94fc7.up.railway.app/docs`
