@@ -1,4 +1,4 @@
-
+import json
 from fastapi import FastAPI, HTTPException, status
 from dotenv import load_dotenv
 from google import genai
@@ -39,7 +39,8 @@ async def breakdown_goal(request: GoalPrompt):
                 response_schema=EpicModel,
             ),
         )
-        return response.text
+        structured_data = json.loads(response.text)
+        return structured_data
 
     except Exception as e:
         raise HTTPException(
