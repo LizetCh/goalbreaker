@@ -10,6 +10,7 @@ Built to demonstrate clean architecture, strict schema control over LLM outputs,
 - **Package Management:** uv by Astral (Fast dependency and environment orchestration)
 - **Validation & Serialization:** Pydantic v2 (Strict schema validation for structural safety)
 - **LLM Provider:** Google GenAI SDK (gemini-3.5-flash)
+- **Resilience Layer:** Implements a custom retry mechanism with exponential backoff for Gemini API calls to handle transient failures and rate limits (`429 RESOURCE_EXHAUSTED`) gracefully without failing the client request.
 
 ## Interactive Documentation
 
